@@ -114,6 +114,7 @@ async function run() {
   }
 
   async function getInputAndValidate() {
+    err = "";
     move = await ask(`${turn === "X" ? p1 : p2} (${turn}) move: `);
     if (move === "resign") {
       over = true;
