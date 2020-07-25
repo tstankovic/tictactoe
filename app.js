@@ -105,7 +105,7 @@ async function run() {
     }
 
     // Check if the table is full
-    // We check does table have at least 1 empty space. If it doesn't, its game over
+    // We check does the table have at least 1 empty space. If it doesn't, its game over
     const tableFull = !m.some((el) => el.some((elem) => elem === " "));
     if (tableFull) {
       over = true;
