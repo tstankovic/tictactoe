@@ -57,6 +57,24 @@ async function run() {
   function checkForWinner() {
     let i, j, sign;
 
+    // Checking horizontal lines
+    for (i = 0; i < 3; i++) {
+      sign = m[i][0];
+      if (sign === " ") continue;
+      for (j = 1; j < 3; j++) {
+        if (m[i][j] !== sign) break;
+      }
+      // If j == 3 that means for loop made it to the end
+      //  => all signs in i-th line are same
+      //  => we have a winner!
+      if (j === 3) {
+        over = true;
+        winner = sign === "X" ? p1 : p2;
+        return;
+      }
+    }
+
+    // Checking vertical lines
     for (j = 0; j < 3; j++) {
       sign = m[0][j];
       if (sign === " ") continue;
@@ -70,26 +88,15 @@ async function run() {
       }
     }
 
-    for (i = 0; i < 3; i++) {
-      sign = m[i][0];
-      if (sign === " ") continue;
-      for (j = 1; j < 3; j++) {
-        if (m[i][j] !== sign) break;
-      }
-      if (j === 3) {
-        over = true;
-        winner = sign === "X" ? p1 : p2;
-        return;
-      }
-    }
-
+    // Checking main diagonal
     sign = m[0][0];
-    if (sign !== " " && m[1][1] === sign && m[2][2] === sign) {
+    if (sign !== " " && sign === m[1][1] && sign === m[2][2]) {
       over = true;
       winner = sign === "X" ? p1 : p2;
       return;
     }
 
+    // Checking side diagonal
     sign = m[2][0];
     if (sign !== " " && m[1][1] === sign && m[0][2] === sign) {
       over = true;
@@ -97,17 +104,10 @@ async function run() {
       return;
     }
 
-    let end = true;
-    for (i = 0; i < 3; i++) {
-      for (j = 0; j < 3; j++) {
-        if (m[i][j] === " ") {
-          end = false;
-          break;
-        }
-      }
-      if (j < 3) break;
-    }
-    if (end) {
+    // Check if the table is full
+    // We check does table have at least 1 empty space. If it doesn't, its game over
+    const tableFull = !m.some((el) => el.some((elem) => elem === " "));
+    if (tableFull) {
       over = true;
       winner = "No one";
     }
